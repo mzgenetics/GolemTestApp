@@ -3,16 +3,55 @@
 #' @param request Internal parameter for `{shiny}`.
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @import shinydashboard
+#' @import shinydashboardPlus
 #' @noRd
 app_ui <- function(request) {
   tagList(
+
+    dashboardPage(
+      dashboardHeader(title = "Basic dashboard"),
+      ## Sidebar content
+      dashboardSidebar(
+        sidebarMenu(
+          menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+          menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+        )
+      ),
+
+      ## Body content
+      dashboardBody(
+        tabItems(
+          # First tab content
+          tabItem(tabName = "dashboard",
+                  fluidRow(
+                    box(plotOutput("plot1", height = 250)),
+
+                    box(
+                      title = "Controls",
+                      sliderInput("slider", "Number of observations:", 1, 100, 50)
+                    )
+                  )
+          ),
+
+          # Second tab content
+          tabItem(tabName = "widgets",
+                  h2("Widgets tab content")
+          )
+        )
+      )
+
+
+
+    ) #dashboardPage
+
     # Leave this function for adding external resources
-    golem_add_external_resources(),
-    # Your application UI logic
-    fluidPage(
-      h1("GolemTestApp")
-    )
-  )
+    # golem_add_external_resources(),
+    # # Your application UI logic
+    # fluidPage(
+    #   h1("GolemTestApp")
+    # )
+  ) #taglist
 }
 
 #' Add external Resources to the Application
